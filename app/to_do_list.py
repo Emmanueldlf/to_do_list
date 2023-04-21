@@ -4,8 +4,8 @@ from task import Task
 task = Task()
 
 while task.active:
-    user_action = input("Will you add a task? edit a task? Mark a task as completed? See your list? Check a specific task? ")
-    match user_action:
+    user_action = input("Will you add a task? edit a task? Mark a task as completed? See your list? Check a specific task? Delete a task? Destroy your list? ")
+    match user_action.title():
         case 'Add':
             task.add_task()
         case 'Edit':
@@ -16,9 +16,10 @@ while task.active:
             task.show_tasks()
         case 'Check':
             task.show_task()
+        case 'Delete':
+            task.delete_task()
+        case 'Destroy':
+            task.destroy_list()
         case 'Quit':
             # active = False
             task.quit()
-
-
-# print(tasks)
