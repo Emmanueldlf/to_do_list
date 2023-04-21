@@ -9,10 +9,13 @@ class Task():
       self.filename = 'app/tasks.json'
       self.active = True
 
+    def _read_file_(self):
+       with open(self.filename) as f_obj:
+            self.tasks = json.load(f_obj)
+
     def show_tasks(self):
         try:
-            with open(self.filename) as f_obj:
-                self.tasks = json.load(f_obj)
+            self._read_file_()
             if self.tasks == []:
                 self.message = print("Your list is currently empty.")
                 return self.message
@@ -27,16 +30,17 @@ class Task():
         # return self.tasks
 
     def show_task(self):
-        with open(self.filename) as f_obj:
-            self.tasks_list = json.load(f_obj)
+        # with open(self.filename) as f_obj:
+        #     self.tasks_list = json.load(f_obj)
             self.task_number = (int(input("What's the index of the task you want to check? ")))
             print(f"{self.task_number}- {self.tasks_list[self.task_number - 1]['name'].title()} {self.tasks_list[self.task_number - 1]['status']}\n")
 
     def add_task(self):
         # self.task = {}
         try:
-            with open(self.filename) as f_obj:
-                self.tasks = json.load(f_obj)
+            self._read_file_()
+            # with open(self.filename) as f_obj:
+                # self.tasks = json.load(f_obj)
             self.task['name'] = input('Please enter a new task: ')
             self.task['status'] = ' [ ]'
         except ValueError:
