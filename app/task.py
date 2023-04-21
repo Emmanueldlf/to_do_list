@@ -49,7 +49,7 @@ class Task():
             self.task['status'] = '[ ]'
             self.tasks = []
         self.tasks.append(self.task)
-        self.save_task()
+        self._save_task_()
         return self.tasks
 
         # if self.tasks == []:
@@ -65,7 +65,7 @@ class Task():
         # self.save_task()
         # return self.tasks
 
-    def save_task(self):
+    def _save_task_(self):
         with open(self.filename, 'w') as f_obj:
             json.dump(self.tasks, f_obj)
 
@@ -77,7 +77,7 @@ class Task():
             self.task_number = (int(input("What's the index of the task you want to edit? ")))
             self.new_task = input("Please enter the new task that will replace the one you picked: ")
             self.tasks[self.task_number - 1]['name'] = self.new_task
-            self.save_task()
+            self._save_task_()
 
     def mark_task(self):
         self.show_tasks()
@@ -86,7 +86,7 @@ class Task():
         else:
             self.task_number = (int(input("What's the index of the task you want to mark as completed? ")))
             self.tasks[self.task_number - 1]['status']=  " [X]"
-            self.save_task()
+            self._save_task_()
 
     def delete_task(self):
         self.show_tasks()
@@ -95,7 +95,7 @@ class Task():
         else:
             self.task_number = (int(input("What's the index of the task you want to delete? ")))
             self.tasks.remove(self.tasks[self.task_number - 1])
-            self.save_task()
+            self._save_task_()
 
     def destroy_list(self):
         #Not working
@@ -108,7 +108,7 @@ class Task():
         else:
             'You will be redirected to the menu and be able to pick another action.'
         print(self.tasks)
-        self.save_task()
+        self._save_task_()
 
 
 
