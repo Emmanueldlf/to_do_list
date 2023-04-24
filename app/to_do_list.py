@@ -4,7 +4,7 @@ from task import Task
 task = Task()
 
 while task.active:
-    user_action = input("Will you add a task? edit a task? Mark a task as completed? See your list? Check a specific task? Delete a task? Destroy your list? ")
+    user_action = input("\nWill you add a task? edit a task? Mark a task as completed? See your list? Check a specific task? Delete a task? Destroy your list?\n")
     match user_action.title():
         case 'Add':
             task.add_task()
