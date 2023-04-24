@@ -16,7 +16,7 @@ class Task():
     def show_tasks(self):
         try:
             self._read_file_()
-            if self.tasks == []:
+            if self.tasks == [] or self.tasks == None:
                 self.message = print("Your list is currently empty.")
                 return self.message
             else:
@@ -37,8 +37,9 @@ class Task():
 
     def add_task(self):
         # self.task = {}
+        self._read_file_()
         try:
-            self._read_file_()
+            # self._read_file_()
             # with open(self.filename) as f_obj:
                 # self.tasks = json.load(f_obj)
             self.task['name'] = input('Please enter a new task: ')
@@ -47,6 +48,13 @@ class Task():
             self.task['name'] = input('Enter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
             self.task['status'] = '[ ]'
+            self.tasks = []
+        except AttributeError:
+            self.task['name'] = input('Enter your first task: ')
+            # self.task['description'] = input('Describe briefly your first task: ')
+            self.task['status'] = '[ ]'
+            self.tasks = []
+        if self.tasks == None:
             self.tasks = []
         self.tasks.append(self.task)
         self._save_task_()
@@ -99,18 +107,17 @@ class Task():
 
     def destroy_list(self):
         #Not working
-        self.show_tasks()
+        self._read_file_()
         self.confirmation = input("Are you sure you want to completely delete this list? ")
         if self.confirmation.title == 'Yes':
             # with open(self.filename) as f_obj:
                 # self.tasks = json.load(f_obj)
-            del self.tasks
+            del(self.tasks)
+            self.tasks = None
         else:
             'You will be redirected to the menu and be able to pick another action.'
-        print(self.tasks)
+        # self.tasks = None
         self._save_task_()
-
-
 
     def quit(self):
         self.active = False
