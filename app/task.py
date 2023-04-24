@@ -37,13 +37,18 @@ class Task():
 
     def add_task(self):
         # self.task = {}
-        self._read_file_()
+        # self._read_file_()
         try:
-            # self._read_file_()
+            self._read_file_()
             # with open(self.filename) as f_obj:
                 # self.tasks = json.load(f_obj)
-            self.task['name'] = input('Please enter a new task: ')
-            self.task['status'] = ' [ ]'
+            if self.tasks == None:
+                self.task['name'] = input('Enter your first task: ')
+                self.task['status'] = ' [ ]'
+                self.tasks = []
+            else:
+                self.task['name'] = input('Please enter a new task: ')
+                self.task['status'] = ' [ ]'
         except ValueError:
             self.task['name'] = input('Enter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
@@ -54,8 +59,8 @@ class Task():
             # self.task['description'] = input('Describe briefly your first task: ')
             self.task['status'] = '[ ]'
             self.tasks = []
-        if self.tasks == None:
-            self.tasks = []
+        # if self.tasks == None:
+        #     self.tasks = []
         self.tasks.append(self.task)
         self._save_task_()
         return self.tasks
@@ -106,17 +111,18 @@ class Task():
             self._save_task_()
 
     def destroy_list(self):
-        #Not working
         self._read_file_()
         self.confirmation = input("Are you sure you want to completely delete this list? ")
         if self.confirmation.title == 'Yes':
-            # with open(self.filename) as f_obj:
-                # self.tasks = json.load(f_obj)
+            # self._read_file_()
             del(self.tasks)
             self.tasks = None
+            print(self.tasks)
+
         else:
             'You will be redirected to the menu and be able to pick another action.'
-        # self.tasks = None
+        self.tasks = None
+        # print(self.tasks)
         self._save_task_()
 
     def quit(self):
