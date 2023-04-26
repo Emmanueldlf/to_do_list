@@ -64,7 +64,7 @@ class Task():
             else:
                 self.task['name'] = input('\nPlease enter a new task: ')
                 creation_time = datetime.datetime.now()
-                self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
+                self.task['creation_date'] = creation_time.strftime("%d-%m-%Y")
                 self.task['status'] = ' [ ]'
         except ValueError:
             self.task['name'] = input('\nEnter your first task: ')
@@ -85,19 +85,6 @@ class Task():
         self.tasks.append(self.task)
         self._save_task()
         return self.tasks
-
-        # if self.tasks == []:
-        #     self.task['name'] = input('Enter your first task: ')
-        #     # self.task['description'] = input('Describe briefly your first task: ')
-        #     self.task['status'] = '[ ]'
-        # else:
-        #     with open(self.filename) as f_obj:
-        #         self.tasks = json.load(f_obj)
-        #     self.task['name'] = input('Please enter a new task: ')
-        #     self.task['status'] = ' [ ]'
-        # self.tasks.append(self.task)
-        # self.save_task()
-        # return self.tasks
 
     def edit_task(self):
         self.show_tasks()
