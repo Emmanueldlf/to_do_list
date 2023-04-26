@@ -1,4 +1,4 @@
-from datetime import *
+import datetime
 import calendar
 import json
 from json import JSONEncoder
@@ -28,7 +28,7 @@ class Task():
                 return self.message
             else:
                 for index, task in enumerate(self.tasks):
-                    print(f"{index + 1}- {task['name'].title()}, {task['creation_date']}, {task['due_date']}, {task['status']}")
+                    print(f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
                 return self.tasks
         except ValueError:
             self.message = print("\nYou did not create any task yet so your tasks list is currently empty, please add a task to create a list, or type 'quit'")
@@ -39,54 +39,45 @@ class Task():
     def show_task(self):
         # with open(self.filename) as f_obj:
         #     self.tasks_list = json.load(f_obj)
+            self._read_file()
             self.task_number = (int(input("\nWhat's the index of the task you want to check? ")))
-            print(f"{self.task_number}- {self.tasks_list[self.task_number - 1]['name'].title()} {self.tasks_list[self.task_number - 1]['status']}\n")
+            print(f"{self.task_number}- {self.tasks[self.task_number - 1]['name'].title()}, added on {self.tasks[self.task_number - 1]['creation_date']}, {self.tasks[self.task_number - 1]['status']}\n")
 
     def add_task(self):
         # self.task = {}
-        self._read_file()
+        # self._read_file()
         try:
-            # self._read_file_()
+            self._read_file()
             # with open(self.filename) as f_obj:
                 # self.tasks = json.load(f_obj)
             if self.tasks == None:
                 self.task['name'] = input('\nEnter your first task: ')
                 creation_time = datetime.datetime.now()
-                timestamp = datetime.fromtimestamp(creation_time)
-                self.task['creation_date'] = creation_date.strftime("%d %m-%y")
-                print(self.task['creation_date'])
+                # time_stamp = creation_time.timestamp(creation_time)
+                # date_time = datetime.fromtimestamp(time_stamp)
+                self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
+                # print(self.task['creation_date'])
                 # self.due_date = input('Please enter the date when this task should be completed?')
                 # self.task['due_date'] = self.due_date.strftime('%x')
                 self.task['status'] = ' [ ]'
                 self.tasks = []
             else:
                 self.task['name'] = input('\nPlease enter a new task: ')
-                timestamp = datetime.datetime.now()
-                creation_date = datetime.fromtimestamp(timestamp)
-                self.task['creation_date'] = creation_date.strftime("%d-%m-%y")
-                # self.due_date = input('Please enter the date when this task should be completed?')
-                # self.task['due_date'] = self.due_date.strftime('%x')
+                creation_time = datetime.datetime.now()
+                self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
                 self.task['status'] = ' [ ]'
         except ValueError:
             self.task['name'] = input('\nEnter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
-            timestamp = datetime.datetime.now()
-            creation_date = datetime.fromtimestamp(timestamp)
-            self.task['creation_date'] = creation_date.strftime("%d-%m-%y")
-            print(self.task['creation_date'])
-            # self.due_date = input('Please enter the date when this task should be completed?')
-            # self.task['due_date'] = self.due_date.strftime('%x')
+            creation_time = datetime.datetime.now()
+            self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
             self.task['status'] = '[ ]'
             self.tasks = []
         except AttributeError:
             self.task['name'] = input('\nEnter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
-            timestamp = datetime.datetime.now()
-            creation_date = datetime.fromtimestamp(timestamp)
-            self.task['creation_date'] = creation_date.strftime("%d-%m-%y")
-            print(self.task['creation_date'])
-            # self.due_date = input('Please enter the date when this task should be completed?')
-            # self.task['due_date'] = self.due_date.strftime('%x')
+            creation_time = datetime.datetime.now()
+            self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
             self.task['status'] = '[ ]'
             self.tasks = []
         # if self.tasks == None:
