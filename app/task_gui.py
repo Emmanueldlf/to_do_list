@@ -44,11 +44,11 @@ class TaskGui():
                 self.tasks = json.load(f_obj)
         return self.tasks
 
-    def _save_task(self):
+    def _save_task(self, tasks):
     # def _save_task(self, tasks):
         with open(self.filename, 'w') as f_obj:
-            json.dump(self.tasks, f_obj)
-            # json.dump(tasks, f_obj)
+            # json.dump(self.tasks, f_obj)
+            json.dump(tasks, f_obj)
 
     def show_tasks(self):
         try:
@@ -127,14 +127,14 @@ class TaskGui():
         # if self.tasks == None:
         #     self.tasks = []
         self.tasks.append(self.task)
-        self._save_task()
+        self._save_task(self.tasks)
         # tasks.append(self.task)
         # self._save_task(tasks)
         return self.tasks
         # return tasks
 
 
-    def edit_task(self, some_task, value):
+    def edit_task(self, some_task, tasks, value):
         # self.show_tasks()
         self._read_file()
         # print(self.tasks)
@@ -142,13 +142,19 @@ class TaskGui():
             print("As a next step, please add a task or type 'quit'")
         else:
             task_to_edit = some_task
-            index = self.tasks.index(task_to_edit)
-            self.tasks[index]['name'] =  value
-            # tasks[index]['name'] =  value
+            # if task_to_edit == (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}"):
+            #     task_to_edit = (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}")
+            # index = self.tasks.index(task_to_edit)
+            # self.tasks[index]['name'] =  value
+            # index = int(task_to_edit[0])
+            # print(tasks)
+            # tasks[index - 1]['name'] =  value
+            index = tasks.index(task_to_edit)
+            tasks[index]['name'] =  value
             # self.task_number = (int(input("What's the index of the task you want to edit? ")))
             # self.new_task = input("Please enter the new task that will replace the one you picked: ")
             # self.tasks[self.task_number - 1]['name'] = self.new_task
-            self._save_task()
+            self._save_task(tasks)
             # self.window['tasks'].update(values=self.task.tasks)
 
 
@@ -160,7 +166,7 @@ class TaskGui():
         else:
             self.task_number = (int(input("\nWhat's the index of the task you want to mark as completed? ")))
             self.tasks[self.task_number - 1]['status']=  " [X]"
-            self._save_task()
+            self._save_task(self.tasks)
 
     def delete_task(self):
         self.show_tasks()
@@ -169,7 +175,7 @@ class TaskGui():
         else:
             self.task_number = (int(input("\nWhat's the index of the task you want to delete? ")))
             self.tasks.remove(self.tasks[self.task_number - 1])
-            self._save_task()
+            self._save_task(self.tasks)
 
     def destroy_list(self):
         self.confirmation = input("\nAre you sure you want to completely delete this list? ")
@@ -177,7 +183,7 @@ class TaskGui():
             self._read_file()
             del(self.tasks)
             self.tasks = None
-            self._save_task()
+            self._save_task(self.tasks)
         else:
            print('\nYou will be redirected to the menu and be able to pick another action.')
         return self.tasks
