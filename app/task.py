@@ -43,7 +43,7 @@ class Task():
             self.task_number = (int(input("\nWhat's the index of the task you want to check? ")))
             print(f"{self.task_number}- {self.tasks[self.task_number - 1]['name'].title()}, added on {self.tasks[self.task_number - 1]['creation_date']}, {self.tasks[self.task_number - 1]['status']}\n")
 
-    def add_task(self, value):
+    def add_task(self):
         # self.task = {}
         # self._read_file()
         try:
@@ -51,8 +51,7 @@ class Task():
             # with open(self.filename) as f_obj:
                 # self.tasks = json.load(f_obj)
             if self.tasks == None:
-                self.task['name'] = value
-                # self.task['name'] = input('\nEnter your first task: ')
+                self.task['name'] = input('\nEnter your first task: ')
                 creation_time = datetime.datetime.now()
                 # time_stamp = creation_time.timestamp(creation_time)
                 # date_time = datetime.fromtimestamp(time_stamp)
@@ -63,22 +62,19 @@ class Task():
                 self.task['status'] = ' [ ]'
                 self.tasks = []
             else:
-                self.task['name'] = value
-                # self.task['name'] = input('\nPlease enter a new task: ')
+                self.task['name'] = input('\nPlease enter a new task: ')
                 creation_time = datetime.datetime.now()
                 self.task['creation_date'] = creation_time.strftime("%d-%m-%Y")
                 self.task['status'] = ' [ ]'
         except ValueError:
-            self.task['name'] = value
-            # self.task['name'] = input('\nEnter your first task: ')
+            self.task['name'] = input('\nEnter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
             creation_time = datetime.datetime.now()
             self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
             self.task['status'] = '[ ]'
             self.tasks = []
         except AttributeError:
-            self.task['name'] = value
-            # self.task['name'] = input('\nEnter your first task: ')
+            self.task['name'] = input('\nEnter your first task: ')
             # self.task['description'] = input('Describe briefly your first task: ')
             creation_time = datetime.datetime.now()
             self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
@@ -90,18 +86,14 @@ class Task():
         self._save_task()
         return self.tasks
 
-    def edit_task(self, some_task, tasks, value):
+    def edit_task(self):
         self.show_tasks()
         if hasattr(Task, 'message') :
             print("As a next step, please add a task or type 'quit'")
         else:
-            task_to_edit = some_task
-            # print(tasks)
-            index = tasks.index(task_to_edit)
-            tasks[index]['name'] =  value
-            # self.task_number = (int(input("What's the index of the task you want to edit? ")))
-            # self.new_task = input("Please enter the new task that will replace the one you picked: ")
-            # self.tasks[self.task_number - 1]['name'] = self.new_task
+            self.task_number = (int(input("What's the index of the task you want to edit? ")))
+            self.new_task = input("Please enter the new task that will replace the one you picked: ")
+            self.tasks[self.task_number - 1]['name'] = self.new_task
             self._save_task()
 
     def mark_task(self):
