@@ -36,8 +36,8 @@ while task.active:
             task.add_task(values['task'])
             # task.add_task(values['task'], values['tasks'])
         case 'Edit':
-            # task.edit_task(values['tasks'][0], task.tasks, values['task'])
-            task.edit_task(values['tasks'][0], values['task'])
+            task.edit_task(values['tasks'][0], task.tasks, values['task'])
+            # task.edit_task(values['tasks'][0], values['task'])
             window['tasks'].update(values=task.show_tasks())
         # case 'Mark':
         #     task.mark_task()
