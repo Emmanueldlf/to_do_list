@@ -57,10 +57,16 @@ class TaskGui():
                 self.message = print("\nYour list is currently empty.")
                 return self.message
             else:
+                self.tasks_show = self._read_file()
                 for index, task in enumerate(self.tasks):
-                    # self.tasks[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
-                    (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
-                return self.tasks
+                    try:
+                        self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, and modified on {task['modification_date']}, {task['status']}")
+                        # self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                    except KeyError:
+                        self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                        # self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, and modified on{task['modification_date']}, {task['status']}")
+                    # (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                return self.tasks_show
         except ValueError:
             self.message = print("\nYou did not create any task yet so your tasks list is currently empty, please add a task to create a list, or type 'quit'")
             # self.tasks = self.message
@@ -134,7 +140,9 @@ class TaskGui():
         # return tasks
 
 
-    def edit_task(self, some_task, tasks, value):
+    def edit_task(self, some_task, value):
+    #Version works with four parameters: self, selected task, a list parameter and the value from the input field.
+    # def edit_task(self, some_task, tasks, value):
         # self.show_tasks()
         self._read_file()
         # print(self.tasks)
@@ -142,19 +150,16 @@ class TaskGui():
             print("As a next step, please add a task or type 'quit'")
         else:
             task_to_edit = some_task
-            # if task_to_edit == (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}"):
-            #     task_to_edit = (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}")
-            # index = self.tasks.index(task_to_edit)
-            # self.tasks[index]['name'] =  value
-            # index = int(task_to_edit[0])
-            # print(tasks)
-            # tasks[index - 1]['name'] =  value
-            index = tasks.index(task_to_edit)
-            tasks[index]['name'] =  value
-            # self.task_number = (int(input("What's the index of the task you want to edit? ")))
-            # self.new_task = input("Please enter the new task that will replace the one you picked: ")
-            # self.tasks[self.task_number - 1]['name'] = self.new_task
-            self._save_task(tasks)
+            index = int(task_to_edit[0]) - 1
+            self.tasks[index]['name'] =  value
+            modification_time = datetime.datetime.now()
+            self.tasks[index]['modification_date'] = modification_time.strftime('%d-%m-%Y')
+            self._save_task(self.tasks)
+            # four lines below are the lines that correspond to the 4 arguments versions that print the dictionnary in the window.
+            # task_to_edit = some_task
+            # index = int(task_to_edit[0]) - 1
+            # tasks[index]['name'] =  value
+            # self._save_task(tasks)
             # self.window['tasks'].update(values=self.task.tasks)
 
 
