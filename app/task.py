@@ -71,7 +71,7 @@ class Task():
             # self.task['description'] = input('Describe briefly your first task: ')
             creation_time = datetime.datetime.now()
             self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
-            self.task['status'] = '[ ]'
+            self.task['status'] = ' [ ]'
             self.tasks = []
         except AttributeError:
             self.task['name'] = input('\nEnter your first task: ')
