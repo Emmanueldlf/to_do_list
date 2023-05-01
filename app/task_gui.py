@@ -57,10 +57,23 @@ class TaskGui():
                 self.message = print("\nYour list is currently empty.")
                 return self.message
             else:
+                self.tasks_show = self._read_file()
                 for index, task in enumerate(self.tasks):
-                    # self.tasks[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
-                    (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
-                return self.tasks
+                    if task['status'] == ' [ ]':
+                        self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}")
+                    else:
+                        self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, {task['status']}")
+
+                    # try:
+                    #     self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, modified on {task['modification_date']}, {task['status']}")
+                    #     # self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                    # except KeyError:
+                    #         self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                    # except KeyError['modification_date']:
+                            # self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, completed on {task['completion_date']}, {task['status']}")
+                        # self.tasks_show[index] = (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, and modified on{task['modification_date']}, {task['status']}")
+                    # (f"{index + 1}- {task['name'].title()}, added on {task['creation_date']}, {task['status']}")
+                return self.tasks_show
         except ValueError:
             self.message = print("\nYou did not create any task yet so your tasks list is currently empty, please add a task to create a list, or type 'quit'")
             # self.tasks = self.message
@@ -103,7 +116,8 @@ class TaskGui():
                 # self.task['name'] = input('\nPlease enter a new task: ')
                 creation_time = datetime.datetime.now()
                 self.task['creation_date'] = creation_time.strftime("%d-%m-%Y")
-                self.task['status'] = ' [ ]'
+                self.task['status'] = f"added on {self.task['creation_date']}"
+                # self.task['status'] = ' [ ]'
         except ValueError:
             # self.task['name'] = self.values['task']
             self.task['name'] = value
@@ -111,7 +125,8 @@ class TaskGui():
             # self.task['description'] = input('Describe briefly your first task: ')
             creation_time = datetime.datetime.now()
             self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
-            self.task['status'] = '[ ]'
+            self.task['status'] = f"added on {self.task['creation_date']}"
+            # self.task['status'] = '[ ]'
             # self.tasks = []
             # self.tasks = self.values['tasks']
         except AttributeError:
@@ -121,7 +136,8 @@ class TaskGui():
             # self.task['description'] = input('Describe briefly your first task: ')
             creation_time = datetime.datetime.now()
             self.task['creation_date'] = str(creation_time.strftime("%d-%m-%Y"))
-            self.task['status'] = '[ ]'
+            self.task['status'] = f"added on {self.task['creation_date']}"
+            # self.task['status'] = '[ ]'
             # self.tasks = []
             # self.tasks = self.values['tasks']
         # if self.tasks == None:
@@ -134,48 +150,62 @@ class TaskGui():
         # return tasks
 
 
-    def edit_task(self, some_task, tasks, value):
+    def edit_task(self, selected_task, value):
+    #Version works with four parameters: self, selected task, a list parameter and the value from the input field.
+    # def edit_task(self, some_task, tasks, value):
         # self.show_tasks()
         self._read_file()
         # print(self.tasks)
         if hasattr(TaskGui, 'message') :
             print("As a next step, please add a task or type 'quit'")
         else:
-            task_to_edit = some_task
-            # if task_to_edit == (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}"):
-            #     task_to_edit = (f"{index + 1}- {self.task['name'].title()}, added on {self.task['creation_date']}, {self.task['status']}")
-            # index = self.tasks.index(task_to_edit)
-            # self.tasks[index]['name'] =  value
-            # index = int(task_to_edit[0])
-            # print(tasks)
-            # tasks[index - 1]['name'] =  value
-            index = tasks.index(task_to_edit)
-            tasks[index]['name'] =  value
-            # self.task_number = (int(input("What's the index of the task you want to edit? ")))
-            # self.new_task = input("Please enter the new task that will replace the one you picked: ")
-            # self.tasks[self.task_number - 1]['name'] = self.new_task
-            self._save_task(tasks)
+            task_to_edit = selected_task
+            index = int(task_to_edit[0]) - 1
+            self.tasks[index]['name'] =  value
+            modification_time = datetime.datetime.now()
+            self.tasks[index]['modification_date'] = modification_time.strftime('%d-%m-%Y')
+            self.tasks[index]['status'] = f"modified on {self.tasks[index]['modification_date']}"
+            self._save_task(self.tasks)
+            # four lines below are the lines that correspond to the 4 arguments versions that print the dictionnary in the window.
+            # task_to_edit = some_task
+            # index = int(task_to_edit[0]) - 1
+            # tasks[index]['name'] =  value
+            # self._save_task(tasks)
             # self.window['tasks'].update(values=self.task.tasks)
 
 
-    def mark_task(self):
-        self.show_tasks()
-        # self._read_file()
+    def mark_task(self, selected_task):
+        # self.show_tasks()
+        self._read_file()
         if hasattr(TaskGui, 'message') :
             print("\nAs a next step, please add a task or type 'quit'")
         else:
-            self.task_number = (int(input("\nWhat's the index of the task you want to mark as completed? ")))
-            self.tasks[self.task_number - 1]['status']=  " [X]"
+            task_to_mark = selected_task
+            index = int(task_to_mark[0]) - 1
+            print(self.tasks)
+            # self.tasks[index]['status'] =  " [X]"
+            completion_time = datetime.datetime.now()
+            self.tasks[index]['completion_date'] = completion_time.strftime('%d-%m-%Y')
+            self.tasks[index]['status'] = f"completed on {self.tasks[index]['completion_date']}"
             self._save_task(self.tasks)
+            # self.task_number = (int(input("\nWhat's the index of the task you want to mark as completed? ")))
+            # self.tasks[self.task_number - 1]['status']=  " [X]"
+            # self._save_task(self.tasks)
 
-    def delete_task(self):
-        self.show_tasks()
+    def delete_task(self, selected_task):
+        # self.show_tasks()
+        self._read_file()
         if self.tasks == None or self.tasks == []:
             print("\nAs a next step, please add a task or type 'quit'")
         else:
-            self.task_number = (int(input("\nWhat's the index of the task you want to delete? ")))
-            self.tasks.remove(self.tasks[self.task_number - 1])
+            task_to_delete = selected_task
+            index = int(task_to_delete[0]) - 1
+            self.tasks.remove(self.tasks[index])
             self._save_task(self.tasks)
+
+            # self.task_number = (int(input("\nWhat's the index of the task you want to delete? ")))
+            # self.tasks.remove(self.tasks[self.task_number - 1])
+            # self._save_task(self.tasks)
 
     def destroy_list(self):
         self.confirmation = input("\nAre you sure you want to completely delete this list? ")
