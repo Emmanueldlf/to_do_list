@@ -1,18 +1,20 @@
-from task import Task
+from task_web import TaskWeb
 import streamlit as st
 
 # active = True
-task = Task()
+task = TaskWeb()
+task.task_web()
+# task.show_tasks()
 
-st.title('Tasks Management')
-st.subheader('This is a Tasks Management app')
-st.write('This app is to help keep track of your tasks')
+# st.title('Tasks Management')
+# st.subheader('This is a Tasks Management app')
+# st.write('This app is to help keep track of your tasks')
 
-task.show_tasks()
-for task in task.tasks:
-    st.checkbox(task['name'] )
+# task.show_tasks()
+# for task in task.tasks:
+#     st.checkbox(task['name'] )
 
-st.text_input(label="", placeholder="Add a new task...")
+# st.text_input(label="", placeholder="Add a new task...")
 
 
 
