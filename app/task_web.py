@@ -2,6 +2,7 @@ import datetime
 import calendar
 import json
 from json import JSONEncoder
+from json import JSONDecodeError
 import streamlit as st
 
 class TaskWeb():
@@ -18,16 +19,19 @@ class TaskWeb():
         st.write('This app is to help keep track of your tasks')
         self._read_file()
         for index, task in enumerate(self.tasks):
-                    self.checkbox = st.checkbox(task['name'], key=task,
-                                                on_change=self.mark_task(index))
-                    if self.checkbox:
-                        self.mark_task(index)
+                self.checkbox = st.checkbox(task['name'], key=task
+                                             )
+                if self.checkbox:
+                    self.mark_task(index)
         st.text_input(label="", placeholder="Add a new task...",
                       on_change=self.add_task, key='new_task')
 
     def _read_file(self):
-        with open(self.filename) as f_obj:
-            self.tasks = json.load(f_obj)
+        try:
+            with open(self.filename) as f_obj:
+                self.tasks = json.load(f_obj)
+        except JSONDecodeError:
+            st.write('Your tasks list is currently emtpy, please add a task')
         return self.tasks
 
     def _save_task(self):
