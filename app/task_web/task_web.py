@@ -10,7 +10,7 @@ class TaskWeb():
     def __init__(self):
         self.tasks = []
         self.task = {}
-        self.filename = 'app/tasks.json'
+        self.filename = '../tasks.json'
         self.active = True
 
     def task_web(self):
