@@ -19,7 +19,7 @@ class TaskWeb():
         st.write('This app is to help keep track of your tasks')
         self._read_file()
         for index, task in enumerate(self.tasks):
-                self.checkbox = st.checkbox(task['name'], key=task
+                self.checkbox = st.checkbox(task['name'], key='task'
                                              )
                 if self.checkbox:
                     self.mark_task(index)
@@ -31,7 +31,7 @@ class TaskWeb():
             with open(self.filename) as f_obj:
                 self.tasks = json.load(f_obj)
         except JSONDecodeError:
-            st.write('Your tasks list is currently emtpy, please add a task')
+            st.write('Your tasks list is currently empty, please add a task')
         return self.tasks
 
     def _save_task(self):
@@ -129,7 +129,10 @@ class TaskWeb():
         completion_time = datetime.datetime.now()
         self.tasks[index]['completion_date'] = completion_time.strftime('%d-%m-%Y')
         self.tasks[index]['status'] = f"completed on {self.tasks[index]['completion_date']}"
+        self.tasks.pop(index)
         self._save_task()
+        del st.session_state['task']
+        st.experimental_rerun()
 
         # if hasattr(TaskWeb, 'message') :
         #     print("\nAs a next step, please add a task or type 'quit'")
