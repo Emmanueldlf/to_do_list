@@ -10,7 +10,7 @@ class TaskWeb():
     def __init__(self):
         self.tasks = []
         self.task = {}
-        self.filename = '../tasks.json'
+        self.filename = 'app/task_web/web_tasks.json'
         self.active = True
 
     def task_web(self):
@@ -19,10 +19,9 @@ class TaskWeb():
         st.write('This app is to help keep track of your tasks')
         self._read_file()
         for index, task in enumerate(self.tasks):
-                self.checkbox = st.checkbox(task['name'], key='task'
-                                             )
+                self.checkbox = st.checkbox(task['name'], key=task)
                 if self.checkbox:
-                    self.mark_task(index)
+                    self.mark_task(index, task)
         st.text_input(label="", placeholder="Add a new task...",
                       on_change=self.add_task, key='new_task')
 
@@ -31,6 +30,8 @@ class TaskWeb():
             with open(self.filename) as f_obj:
                 self.tasks = json.load(f_obj)
         except JSONDecodeError:
+            st.write('Your tasks list is currently empty, please add a task')
+        except FileNotFoundError:
             st.write('Your tasks list is currently empty, please add a task')
         return self.tasks
 
@@ -123,7 +124,7 @@ class TaskWeb():
             self.tasks[self.task_number - 1]['name'] = self.new_task
             self._save_task()
 
-    def mark_task(self, index):
+    def mark_task(self, index, task):
         # self.show_tasks()
         self._read_file()
         completion_time = datetime.datetime.now()
@@ -131,7 +132,7 @@ class TaskWeb():
         self.tasks[index]['status'] = f"completed on {self.tasks[index]['completion_date']}"
         self.tasks.pop(index)
         self._save_task()
-        del st.session_state['task']
+        del st.session_state[task]
         st.experimental_rerun()
 
         # if hasattr(TaskWeb, 'message') :
